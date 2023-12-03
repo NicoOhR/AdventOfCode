@@ -12,6 +12,7 @@ strToNumb :: [String] -> [Int]
 strToNumb = map read . filter (all isDigit)
 
 
+main :: IO ()
 main = do
     content <- readFile "input.txt"
     let linesOfFile = lines content
