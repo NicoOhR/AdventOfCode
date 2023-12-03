@@ -12,11 +12,22 @@ group n l
 possible :: [String] -> Bool
 possible [number, color] = case readMaybe number of 
                                     Just num -> case color of
-                                         "green" -> num < 13
-                                         "blue"  -> num < 14
-                                         "red"   -> num < 11
+                                         "green" -> num <= 13
+                                         "blue"  -> num <= 14
+                                         "red"   -> num <= 12
                                          _       -> False
 
+removeFirst :: [[String]] -> [[String]]
+removeFirst (_:xs) = xs
+
+possibleGame :: [[String]] -> [Bool]
+possibleGame s = map possible s
+
+possibleGame' :: [Bool] -> Bool
+possibleGame' = all id
+
+trueIndex :: [Bool] -> [Int]
+trueIndex bools = [idx | (val, idx) <- zip bools [0..], val]
 
 main :: IO ()
 main = do
@@ -24,5 +35,10 @@ main = do
     let linesOfFile = lines content
     let splitLines = map words linesOfFile
     let sanitizedLines = map (map (filter isAlphaNum)) splitLines
-    let finalLine = map (group 2)  sanitizedLines
-    mapM_ print finalLine 
+    let groupedLine = map (group 2)  sanitizedLines
+    let finalLine = map removeFirst groupedLine
+    let trueLine = map (possibleGame' . possibleGame) finalLine
+    let finalValue = trueIndex trueLine
+    let finalValue' = map (+1) finalValue
+    let total = sum finalValue'
+    print total 
