@@ -6,7 +6,7 @@ import Text.Read (readMaybe)
 group :: Int -> [a] -> [[a]]
 group _ [] = []
 group n l
-  | n > 0 = (take n l) : (group n (drop n l))
+  | n > 0 = take n l : group n (drop n l)
   | otherwise = error "Negative or zero n"
 
 possible :: [String] -> Bool
@@ -21,10 +21,10 @@ removeFirst :: [[String]] -> [[String]]
 removeFirst (_:xs) = xs
 
 possibleGame :: [[String]] -> [Bool]
-possibleGame s = map possible s
+possibleGame = map possible
 
 possibleGame' :: [Bool] -> Bool
-possibleGame' = all id
+possibleGame' = and
 
 trueIndex :: [Bool] -> [Int]
 trueIndex bools = [idx | (val, idx) <- zip bools [0..], val]
