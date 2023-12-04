@@ -1,7 +1,7 @@
 import System.IO ()
 import Data.Char (isDigit)
 import Data.List (isPrefixOf)
-
+import Data.List (nub)
 
 
 isSpecial :: Char -> Bool
@@ -49,7 +49,7 @@ main = do
     let indexedLines = cleanMatchIndex $ applyMatchIndex groupedLines linesOfFile
     --generate the special lists
     let groupedSpecial = map group' linesOfFile
-    let groupedSpecialClean = applyMatchIndices groupedSpecial linesOfFile
+    let groupedSpecialClean = nub $ applyMatchIndices groupedSpecial linesOfFile
 
     mapM_ print indexedLines
     mapM_ print groupedSpecialClean
