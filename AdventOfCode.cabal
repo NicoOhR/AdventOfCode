@@ -12,7 +12,6 @@ cabal-version:      3.0
 --
 -- The name of the package.
 name:               AdventOfCode
-
 -- The package version.
 -- See the Haskell package versioning policy (PVP) for standards
 -- guiding when and how versions should be incremented.
@@ -58,19 +57,22 @@ executable AdventOfCode
     import:           warnings
 
     -- .hs or .lhs file containing the Main module.
-    main-is:          2024/mull.hs
+    main-is:          2024/xmas.hs
 
     -- Modules included in this executable, other than Main.
-    -- other-modules:
+    -- other-modules:      
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
+
 
     -- Other library packages from which modules are imported.
     build-depends:       base >=4.14 && <4.18,
                    regex-tdfa >=1.3.2 && <1.4,
                         split >=0.2.3.3 && <0.3,
-                        text >= 1.2 && < 2
+                         text >=1.2 && < 2,
+             data-list-zigzag >=0.1.1.1
+
 
     -- Directories containing source files.
     hs-source-dirs:   app
