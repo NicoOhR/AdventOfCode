@@ -71,8 +71,8 @@ executable AdventOfCode
                    regex-tdfa >=1.3.2 && <1.4,
                         split >=0.2.3.3 && <0.3,
                          text >=1.2 && < 2,
-             data-list-zigzag >=0.1.1.1
-
+             data-list-zigzag >=0.1.1.1,
+                   containers >= 0.1
 
     -- Directories containing source files.
     hs-source-dirs:   app
