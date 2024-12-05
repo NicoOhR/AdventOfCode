@@ -1,43 +1,61 @@
-import Data.List (intercalate, transpose)
 import qualified Data.Map as Map
-import qualified Data.Set as Set
-import Debug.Trace
-import Text.Regex.TDFA
+import Data.Maybe (catMaybes, fromMaybe)
 import Text.Regex.TDFA.Text ()
 
 type Point = (Int, Int)
+
+type Grid = Map.Map Point Char
 
 makeGrid :: [String] -> Map.Map Point Char
 makeGrid rows =
   Map.fromList [((r, c), char) | (r, row) <- zip [0 ..] rows, (c, char) <- zip [0 ..] row]
 
-explore :: Point -> Map.Map Point Char -> Bool
-explore p m =
-  case Map.lookup p m of
-    Just 'X' -> findXmas p m
-    _ -> False
+count g = sum . map (\p -> countXmas g p stepFunctions) . findX $ g
 
-findXmas :: Point -> Map.Map Point Char -> Bool
-findXmas start m = loop start "XMAS"
+countXmas g p = length . filter (isXmas g p)
+
+isXmas :: Grid -> Point -> (Point -> Point) -> Bool
+isXmas g p steps = word == "XMAS"
   where
-    loop _ [] = True
-    loop p (c : cs) =
-      case Map.lookup p m of
-        Just char
-          | char == c ->
-              trace (show p) $
-                any (`loop` cs) (neighbors p)
-        _ -> False
-    neighbors :: Point -> [Point]
-    neighbors (x, y) = [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1), (x + 1, y + 1), (x + 1, y - 1), (x - 1, y + 1), (x - 1, y - 1)]
+    word = catMaybes . take 4 . map (`Map.lookup` g) . iterate steps $ p
 
-exploreGrid :: Map.Map Point Char -> [Point]
-exploreGrid m = filter (`explore` m) (Map.keys m)
+findX :: Grid -> [Point]
+findX = Map.keys . Map.filter (== 'X')
+
+findA :: Grid -> [Point]
+findA = Map.keys . Map.filter (== 'A')
+
+countCross :: Grid -> Int
+countCross grid = length . filter (isCross grid) . findA $ grid
+
+isCross :: Grid -> Point -> Bool
+isCross g (x, y) = current `elem` valid
+  where
+    lookup' c = fromMaybe ' ' (Map.lookup c $ g)
+    current = [[lookup' (x - 1, y + 1), ' ', lookup' (x + 1, y + 1)], [' ', 'A', ' '], [lookup' (x - 1, y - 1), ' ', lookup' (x + 1, y - 1)]]
+    valid =
+      [ ["M S", " A ", "M S"],
+        ["S M", " A ", "S M"],
+        ["M M", " A ", "S S"],
+        ["S S", " A ", "M M"]
+      ]
+
+stepFunctions :: [Point -> Point]
+stepFunctions =
+  [ \(x, y) -> (x - 1, y - 1),
+    \(x, y) -> (x - 1, y),
+    \(x, y) -> (x - 1, y + 1),
+    \(x, y) -> (x, y - 1),
+    \(x, y) -> (x, y + 1),
+    \(x, y) -> (x + 1, y - 1),
+    \(x, y) -> (x + 1, y),
+    \(x, y) -> (x + 1, y + 1)
+  ]
 
 main :: IO ()
 main = do
-  contents <- readFile "test.txt"
+  contents <- readFile "input.txt"
   let lines_ = lines contents
   let grid = makeGrid lines_
-  let matches = exploreGrid grid
-  mapM_ print (matches)
+  let count_ = countCross grid
+  print count_

@@ -57,10 +57,9 @@ executable AdventOfCode
     import:           warnings
 
     -- .hs or .lhs file containing the Main module.
-    main-is:          2024/xmas.hs
+    main-is:          2024/printer.hs
 
     -- Modules included in this executable, other than Main.
-    -- other-modules:      
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
