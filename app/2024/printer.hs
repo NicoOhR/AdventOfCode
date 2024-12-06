@@ -1,5 +1,6 @@
-import Data.List (permutations)
+import Data.List (permutations, sortBy)
 import Data.List.Split (splitOn, splitWhen)
+import Text.Printf (printf)
 
 type Rule = (Int, Int)
 
@@ -16,6 +17,10 @@ type Update = [Int]
 -- and I also have several upcoming and very pressing exams, it's generally
 -- easier to just judge all permutations, and pick out the one that works
 -- It won't get me a job at Jane Street but if you can forgive I can forget
+--
+-- Part 2 Part 2
+-- Since the above turns out to be a O(exp(n!)) algorithm, we'll try to be a bit
+-- more correct by creating an ordering from the rules and sorting that
 
 main :: IO ()
 main = do
@@ -25,15 +30,20 @@ main = do
   let updates = map readToUpdate updates'
   let (correct, _) = unzip $ filter snd (zip updates (map (`adheres` rules) updates))
   let (incorrect, _) = unzip $ filter (\(_, b) -> not b) (zip updates (map (`adheres` rules) updates))
-  let flattened = concatMap permutations incorrect
-  let (corrected, _) = unzip $ filter snd (zip flattened (map (`adheres` rules) flattened))
+  let fixed = map (sortBy (rulesOrdering rules)) incorrect
   let p1 = sum $ map middle correct
-  let p2 = sum $ map middle corrected
+  let p2 = sum $ map middle fixed
   print p2
 
 middle xs = xs !! (length xs `div` 2)
 
--- >>> middle [1,2,3]
+rulesOrdering :: [Rule] -> Int -> Int -> Ordering
+rulesOrdering rules a b
+  | a == b = EQ
+  | (a, b) `elem` rules = LT
+  | (b, a) `elem` rules = GT
+  | otherwise = error (printf "Unknown case")
+
 readToRule :: String -> Rule
 readToRule s = (\[x, y] -> (x, y)) $ map read $ splitOn "|" s
 
