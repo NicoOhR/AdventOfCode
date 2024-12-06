@@ -12,12 +12,15 @@ type Update = [Int]
 
 main :: IO ()
 main = do
-  file_ <- readFile "test.txt"
+  file_ <- readFile "input.txt"
   let (rules', updates') = (\[x, y] -> (x, y)) $ splitWhen (== "") $ lines file_ -- ghc can cry abt it
   let rules = map readToRule rules'
   let updates = map readToUpdate updates'
-  let test = map (`adheres` rules) updates
-  print test
+  let (correct, _) = unzip $ filter snd (zip updates (map (`adheres` rules) updates))
+  let total = sum $ map middle correct
+  print total
+
+middle xs = xs !! (length xs `div` 2)
 
 readToRule :: String -> Rule
 readToRule s = (\[x, y] -> (x, y)) $ map read $ splitOn "|" s
