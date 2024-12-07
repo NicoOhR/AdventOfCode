@@ -42,7 +42,7 @@ rulesOrdering rules a b
   | a == b = EQ
   | (a, b) `elem` rules = LT
   | (b, a) `elem` rules = GT
-  | otherwise = error (printf "Unknown case")
+| otherwise = error (printf "Unknown case")
 
 readToRule :: String -> Rule
 readToRule s = (\[x, y] -> (x, y)) $ map read $ splitOn "|" s
