@@ -3,11 +3,14 @@
 {-# HLINT ignore "Redundant bracket" #-}
 import Data.Char (isDigit)
 
+concatInts :: Int -> Int -> Int
+concatInts x y = read (show x ++ show y) :: Int
+
 possible :: [Int] -> Bool
 possible (y : ys) = loop y ys accum
   where
     accum = 0
-    loop target (x : xs) a = loop target xs (x * a) || loop target xs (x + a)
+    loop target (x : xs) a = loop target xs (x * a) || loop target xs (x + a) || loop target xs (concatInts a x)
     loop target [] a
       | target == a = True
       | target /= a = False
