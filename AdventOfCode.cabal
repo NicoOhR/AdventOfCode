@@ -57,7 +57,7 @@ executable AdventOfCode
     import:           warnings
 
     -- .hs or .lhs file containing the Main module.
-    main-is:          2024/bridge.hs
+    main-is:          2024/resonant.hs
 
     -- Modules included in this executable, other than Main.
 
@@ -71,8 +71,8 @@ executable AdventOfCode
                         split >=0.2.3.3 && <0.3,
                          text >=1.2 && < 2,
              data-list-zigzag >=0.1.1.1,
-                   containers >= 0.1
-
+                   containers >=0.1,
+                       vector >=0.13.2.0
     -- Directories containing source files.
     hs-source-dirs:   app
 
