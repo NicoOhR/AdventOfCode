@@ -1,29 +1,27 @@
 def expand(s):
-    map = ""
+    map = []
     for idx,c in enumerate(s):
         if idx%2 == 0:
-            map = map + (str(int(idx/2)) * int(c))
+            map += [int(idx/2) for _ in range(int(c))]
         else:
-            map = map + ('.' * int(c))
+            map += [-1 for _ in range(int(c))]
     return map
 
-def defrag(s):
-    last = len(s) - 1 
-    map = list(s)
+def defrag(map):
+    last = len(map) - 1 
     for idx in range(len(map)):
-        if map[idx] == '.':
-            while last > idx and map[last] == '.':
+        if map[idx] == -1:
+            while last > idx and map[last] == -1:
                 last -= 1
             if last > idx:
                 map[last], map[idx] = map[idx], map[last]
                 last -= 1
-    return ''.join(map)
+    return map
 
-def checksum(s):
+def checksum(map):
     total = 0
-    map = list(s)
     for idx, c in enumerate(map):
-        if(c != '.'):
+        if(c != -1):
             total += (idx * int(c))
     return total
 
@@ -31,6 +29,7 @@ def main():
     with open("input.txt", "r") as file:
         contents = file.read()
         contents = contents = contents.replace("\n", "")
+
     print(checksum(defrag(expand(contents))))
 
 if __name__ == "__main__":
