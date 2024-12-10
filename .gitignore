@@ -1,5 +1,6 @@
 *.txt
 *.hi
+.*
 *.o
 dist-newstyle/
 LICENSE
