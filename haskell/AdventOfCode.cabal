@@ -57,7 +57,7 @@ executable AdventOfCode
     import:           warnings
 
     -- .hs or .lhs file containing the Main module.
-    main-is:          2024/disk.hs
+    main-is:          2024/stones.hs
 
     -- Modules included in this executable, other than Main.
 
