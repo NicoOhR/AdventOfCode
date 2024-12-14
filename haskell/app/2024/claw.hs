@@ -12,15 +12,15 @@ isInteger :: Double -> Bool
 isInteger x = abs (x - fromIntegral (round x)) < 1e-3 -- bullshit magic epsilon WOOYAH
 
 allElems :: Matrix Double -> Bool
-allElems m = all (all isInteger) l
-  where
-    l = toLists m
+allElems = all (all isInteger) . toLists
 
 count :: [Double] -> Int
 count [x, y] = 3 * round x + round y
+count _ = error "Invalid input"
 
 adjust :: [Double] -> [Double]
 adjust [x, y] = [x + 1e+13, y + 1e+13]
+adjust _ = error "Invalid input"
 
 main :: IO ()
 main = do
