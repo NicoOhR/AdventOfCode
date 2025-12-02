@@ -1,4 +1,4 @@
-cabal-version:      3.0
+cabal-version:      3.12
 -- The cabal-version field refers to the version of the .cabal specification,
 -- and can be different from the cabal-install (the tool) version and the
 -- Cabal (the library) version you are using. As such, the Cabal (the library)
@@ -57,7 +57,7 @@ executable AdventOfCode
     import:           warnings
 
     -- .hs or .lhs file containing the Main module.
-    main-is:          2024/claw.hs
+    main-is:          2025/secret.hs
 
     -- Modules included in this executable, other than Main.
 
@@ -66,7 +66,7 @@ executable AdventOfCode
 
 
     -- Other library packages from which modules are imported.
-    build-depends:       base >=4.14 && <4.18,
+    build-depends:       base ^>=4.18.3 ,
                    regex-tdfa >=1.3.2 && <1.4,
                         split >=0.2.3.3 && <0.3,
                          text >=1.2 && < 2,
