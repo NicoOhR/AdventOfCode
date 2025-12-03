@@ -15,7 +15,7 @@ countZeros = length . filter (== 0)
 
 countSwitches :: Integer -> Integer -> Integer
 countSwitches currentPosition turn
-    | newPos <= 0 = abs ((newPos - 1) `div` 100) - if currentPosition == 0 then 1 else 0
+    | newPos <= 0 = abs ((newPos) `div` 100) - if currentPosition == 0 then 1 else 0
     | otherwise = newPos `div` 100
   where
     newPos = currentPosition + turn
