@@ -1,5 +1,4 @@
 import Data.List.Split (splitOn)
-import Debug.Trace
 
 digs :: (Integral x) => x -> [x]
 digs 0 = []

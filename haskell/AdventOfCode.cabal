@@ -57,7 +57,7 @@ executable AdventOfCode
     import:           warnings
 
     -- .hs or .lhs file containing the Main module.
-    main-is:          2025/giftshop.hs
+    main-is:          2025/lobby.hs
 
     -- Modules included in this executable, other than Main.
 
